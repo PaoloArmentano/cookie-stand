@@ -22,7 +22,7 @@ const seattle = {
             container.appendChild(ul);
             for (let i = 0; i < hours.length; i++) {
                 const li = document.createElement("li");
-                li.textContent = `${hours[i]}: ${this.customersEachHour[i]}`;
+                li.textContent = `${hours[i]}: ${this.customersEachHour[i]} cookies`;
                 ul.appendChild(li);
                 }
             },
@@ -40,7 +40,7 @@ const seattle = {
                 this.totalDailyCookies = this.customersCount;
         }
     }
-            };
+    };
 
 
 
