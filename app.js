@@ -14,7 +14,7 @@ const seattle = {
     customersEachHour: [],
     cookiesEachHour: [],
     totalDailyCookies: 0,
-    cookiesData(){
+    render(){
             let h3 = document.createElement("h3");
             h3.textContent = this.storeName;
             container.appendChild(h3);
@@ -47,6 +47,6 @@ const seattle = {
 
 
 seattle.calcCookiesEachHour()
-seattle.cookiesData();
+seattle.render();
 
 
