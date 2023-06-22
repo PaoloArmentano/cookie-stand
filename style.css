@@ -5,8 +5,13 @@
 table, tr, th, td {
     border: 1px solid black;
     border-collapse: collapse;
+    margin: 35px;
 }
 
 th, td, tr {
     padding: 5px;
+}
+
+fieldset{
+    margin: 35px;
 }
