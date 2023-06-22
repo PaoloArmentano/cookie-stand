@@ -1,52 +1,77 @@
-'use strict';
-
-console.log("object")
+"use strict";
+console.log("Script In Construction");
 
 const container = document.getElementById("container");
 const storeTable = document.getElementById("store-table");
 
-const hours = ["6am", "7am", "8am","9am","10am","11am","12pm","1pm","2pm","3pm","4pm","5pm","6pm",]
+const hours = ["6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"];
 
 function randomNum(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }  
-
-function CookieStore(storeName, minCustPerHour, maxCustPerHour, avgCookiesPerCust){    
-    this.storeName = storeName;
-    this.minCustPerHour = minCustPerHour;
-    this.maxCustPerHour = maxCustPerHour;
-    this.avgCookiesPerCust = avgCookiesPerCust;
-    this.customersEachHour = [];
-    this.cookiesEachHour = [];
-    this.totalDailyCookies = 0;
-    this.render()
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-CookieStore.prototype.calcCustomersEachHour = function() {
-    for (let i = 0; i < hours.length; i++) {
-      const randomCustomers = Math.floor(Math.random() * (this.maxCustPerHour - this.minCustPerHour + 1)) + this.minCustPerHour;
-      this.customersEachHour.push(randomCustomers);
-    }
-  };
-
-  CookieStore.prototype.calcCookiesEachHour = function(){
-    this.calcCustomersEachHour();
-    for (let i = 0; i < hours.length; i++) {
-            let customersCount = this.customersEachHour * this.avgCookiesPerCust;
-            this.cookiesEachHour.push(customersCount);
-            this.totalDailyCookies = this.customersCount;
-    }
+function CookieStore(storeName, minCustPerHour, maxCustPerHour, avgCookiesPerHour) {
+  this.storeName = storeName;
+  this.minCustPerHour = minCustPerHour;
+  this.maxCustPerHour = maxCustPerHour;
+  this.avgCookiesPerHour = avgCookiesPerHour;
+  this.customersEachHour = [];
+  this.cookiesEachHour = [];
+  this.totalDailyCookies = 0;
+  // this.calcCustomersEachHour();
+  // this.calcCookiesEachHour();
+  this.render();
 }
 
-const seattle = new CookieStore("Seattle", "36", "70", "5.8");
-const tokyo = new CookieStore("Tokyo", "29", "65", "3.9");
-const dubai = new CookieStore("Dubai", "40", "61", "4.7");
-const paris = new CookieStore("Paris", "15", "55", "3.5");
-const milan = new CookieStore("Milan", "32", "63", "4.2");
+CookieStore.prototype.calcCustomersEachHour = function () {
+  // console.log("working");
+  for (let i = 0; i < hours.length; i++) {
+    this.customersEachHour.push(randomNum(this.minCustPerHour, this.maxCustPerHour));
+  }
+};
 
+CookieStore.prototype.calcCookiesEachHour = function () {
+  // this.calcCustomersEachHour();
+  for (let i = 0; i < hours.length; i++) {
+    let oneHour = Math.ceil(this.customersEachHour[i] * this.avgCookiesPerHour);
+    this.cookiesEachHour.push(oneHour);
+    this.totalDailyCookies += oneHour;
+  }
+};
+
+CookieStore.prototype.render = function () {
+  this.calcCustomersEachHour();
+  this.calcCookiesEachHour();
+
+  // create a table row
+  const tr = document.createElement("tr");
+
+  // create a table data cell
+  const th = document.createElement("th");
+  th.textContent = this.storeName;
+
+  // append the table data to the table row
+  tr.appendChild(th);
+
+  // loop through cookiesEachHour - create a td for each index and append to tr
+  for (let i = 0; i < hours.length; i++) {
+    const td = document.createElement("td");
+    td.textContent = this.cookiesEachHour[i];
+    tr.appendChild(td);
+  }
+
+  // create a th to display the totals and append to the tr
+  const storeTotal = document.createElement("th");
+  storeTotal.textContent = this.totalDailyCookies;
+  tr.appendChild(storeTotal);
+
+  // append the tr to the table - storeTable
+  storeTable.appendChild(tr);
+};
+
+// test constructor works
+const seattle = new CookieStore("Seattle", 23, 65, 6.3);
+const dubai = new CookieStore("Dubai", 23, 65, 6.3);
+const paris = new CookieStore("Paris", 25, 45, 7.2);
+const milan = new CookieStore("Liverpool", 46, 28, 7.4)
 console.log(seattle);
-console.log(tokyo);
-console.log(paris);
-console.log(milan);
-
-
